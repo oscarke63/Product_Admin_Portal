@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const ProductContext = createContext(null);
+const API_URL = "https://json-server-vercel-wa8c.vercel.app/products";
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([])
@@ -13,7 +14,9 @@ export function ProductProvider({ children }) {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch("http://localhost:3001/products");
+  
+        // const response = await fetch("http://localhost:3001/products");
+        const response = await fetch(API_URL);
 
         if (!response.ok) {
           throw new Error("Failed to fetch products");
@@ -36,7 +39,7 @@ export function ProductProvider({ children }) {
 //function to add products. POST Request /Create operation
 async function addProduct(product) {
   try {
-    const response = await fetch("http://localhost:3001/products", {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +71,7 @@ async function addProduct(product) {
 async function updateProduct(id, updatedData) {
   try {
     const response = await fetch(
-      `http://localhost:3001/products/${id}`,
+      `${API_URL}/${id}`,
       {
         method: "PATCH",
         headers: {
@@ -104,7 +107,7 @@ async function updateProduct(id, updatedData) {
 //function to delete a product. DELETE Method/ delete operation
 async function deleteProduct(id){
     try{
-        const response = await fetch (`http://localhost:3001/products/${id}`,
+        const response = await fetch (`${API_URL}/${id}`,
             {
                 method : "DELETE",
             }
